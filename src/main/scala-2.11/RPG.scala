@@ -13,8 +13,9 @@ object RPG extends App {
     s"""あなたは冒険中の ${hero} であり、
         |${monsterCount}匹のモンスターが潜んでいる洞窟を抜けねばならない。
         |【ルール】:
-        |1を入力してEnterキーを押すと攻撃、それ以外を入力すると逃走となる。
+        |1を入力してEnterキーを押すと攻撃、2を入力すると防御、それ以外を入力すると逃走となる。
         |逃走成功確率は50%。逃走に失敗した場合はダメージをうける。
+        |防御は、敵の攻撃力の半分のダメージをうける。
         |一度でもダメージを受けるとモンスターの体力と攻撃力が判明する。
         |またモンスターを倒した場合、武器を奪いその攻撃力を得ることできる。
         |---------------------------------------------
@@ -22,11 +23,14 @@ object RPG extends App {
 
   while (!monsters.isEmpty) {
     val monster = monsters.head
-    val input = scala.io.StdIn.readLine("【選択】: 攻撃[1] or 逃走[0] > ")
+    val input = scala.io.StdIn.readLine("【選択】: 攻撃[1] or 防御[2] or 逃走[0] > ")
 
     if (input == "1") { // 攻撃する
       hero.attack(monster)
       println(s"あなたは${hero.attackDamage}のダメージを与え、${monster.attackDamage}のダメージを受けた。")
+    } else if (input == "2") { // 防御する
+      hero.defend(monster)
+      println(s"あなたは防御し、${monster.attackDamage / 2}のダメージを受けた。")
     } else { // 逃走する
       if(hero.escape(monster)) {
         println("あなたは、モンスターから逃走に成功した。")
@@ -74,6 +78,10 @@ class Hero(_hitPoint: Int, _attackDamage: Int) extends Creature(_hitPoint, _atta
   def attack(monster: Monster): Unit = {
     monster.hitPoint = monster.hitPoint - this.attackDamage
     this.hitPoint = this.hitPoint - monster.attackDamage
+  }
+
+  def defend(monster: Monster): Unit = {
+    this.hitPoint = this.hitPoint - (monster.attackDamage / 2)
   }
 
   def escape(monster: Monster): Boolean = {
