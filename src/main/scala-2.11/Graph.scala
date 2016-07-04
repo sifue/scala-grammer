@@ -18,7 +18,7 @@ object Graph {
     'D' -> Seq('B', 'D', 'E'),
     'E' -> Seq('C', 'D')
   )
-  
+
   case class Edge(from: Char, to: Char)
 
   val edges = Seq(
