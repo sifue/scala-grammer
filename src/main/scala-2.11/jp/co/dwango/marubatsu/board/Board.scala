@@ -1,8 +1,9 @@
 package jp.co.dwango.marubatsu.board
 
-class Board(val cells: Map[(Int, Int), CellState], val next: CellState) {
+private[marubatsu] class Board(private[marubatsu] val cells: Map[(Int, Int), CellState],
+                               private[marubatsu] val next: CellState) {
 
-  def put(row: Int, column: Int): Board = {
+  private[marubatsu] def put(row: Int, column: Int): Board = {
     new Board(cells + ((row, column) -> next), getNext(next))
   }
 
@@ -14,7 +15,7 @@ class Board(val cells: Map[(Int, Int), CellState], val next: CellState) {
     }
   }
 
-  def canPut(row: Int, column: Int): Boolean = cells((row, column)) == Empty
+  private[marubatsu] def canPut(row: Int, column: Int): Boolean = cells((row, column)) == Empty
 
   override def toString = s"Board($cells, $next)"
 }
