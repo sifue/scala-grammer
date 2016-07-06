@@ -2,7 +2,7 @@ package jp.co.dwango.marubatsu.board
 
 private[marubatsu] trait CellState {
 
-  protected def next: CellState
+  private[board] def next: CellState
 
 }
 

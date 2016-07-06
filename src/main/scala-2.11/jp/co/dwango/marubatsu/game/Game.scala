@@ -13,7 +13,7 @@ class Game(private[this] var board: Board) {
 
   def currentBoard: Board = board
 
-  private def judgeWinner(): Winner = {
+  private[this] def judgeWinner(): Winner = {
     val winPattern: Seq[((Int, Int), (Int, Int), (Int, Int))] =
       (for (i <- 0 to 2) yield ((i, 0), (i, 1), (i, 2))) ++
         (for (i <- 0 to 2) yield ((0, i), (1, i), (2, i))) ++
