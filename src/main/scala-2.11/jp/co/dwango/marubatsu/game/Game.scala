@@ -11,8 +11,6 @@ class Game(private[this] var board: Board) {
     GameState(judgeWinner(), board)
   }
 
-  def currentBoard: Board = board
-
   private[this] def judgeWinner(): Winner = {
     val winPattern: Seq[((Int, Int), (Int, Int), (Int, Int))] =
       (for (i <- 0 to 2) yield ((i, 0), (i, 1), (i, 2))) ++
@@ -22,16 +20,16 @@ class Game(private[this] var board: Board) {
     val cells = board.cells
 
     val winners = winPattern.map {
-      case (c1, c2, c3) if cells(c1) == cells(c2) && cells(c2) == cells(c3) => Winner.toWinner(cells(c1))
-      case _ => NonePlayer
+      case (c1, c2, c3) if cells(c1) == cells(c2) && cells(c2) == cells(c3) => toWinner(cells(c1))
+      case _ => None
     }
 
-    if(winners.contains(MaruPlayer)) {
-      MaruPlayer
-    } else if (winners.contains(BatsuPlayer)) {
-      BatsuPlayer
+    if(winners.contains(Maru)) {
+      Maru
+    } else if (winners.contains(Batsu)) {
+      Batsu
     } else {
-      NonePlayer
+      None
     }
   }
 
@@ -42,5 +40,5 @@ case class GameState(winner: Winner, board: Board)
 object Game {
 
   def apply(): Game = new Game(Board())
-  
+
 }

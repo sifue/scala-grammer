@@ -1,25 +1,6 @@
 package jp.co.dwango.marubatsu.board
 
-private[marubatsu] trait CellState {
-
-  private[board] def next: CellState
-
-}
-
-private[marubatsu] case object Empty extends CellState {
-
-  private[board] def next: CellState = Empty
-
-}
-
-private[marubatsu] case object Maru extends CellState {
-
-  private[board] def next: CellState = Batsu
-
-}
-
-private[marubatsu] case object Batsu extends CellState {
-
-  private[board] def next: CellState = Maru
-
-}
+sealed abstract class CellState
+case object Empty extends CellState
+case object Maru extends CellState
+case object Batsu extends CellState
