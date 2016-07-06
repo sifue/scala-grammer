@@ -1,6 +1,6 @@
 package jp.co.dwango.marubatsu.game
 
-import jp.co.dwango.marubatsu.field.{Batsu, CellState, Maru}
+import jp.co.dwango.marubatsu.board.{Batsu, CellState, Maru} // import jp.co.dwango.marubatsu.board.{Batsu, CellState, Maru}
 
 sealed trait Winner
 

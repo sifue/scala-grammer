@@ -1,17 +1,17 @@
 package jp.co.dwango.marubatsu.game
 
-import jp.co.dwango.marubatsu.field.Field
+import jp.co.dwango.marubatsu.board.Board
 
-class Game(private[this] var field: Field) {
+class Game(private[this] var board: Board) {
 
   def play(row: Int, column: Int): GameState = {
-    if (field.canPut(row, column)) {
-      field = field.put(row, column)
+    if (board.canPut(row, column)) {
+      board = board.put(row, column)
     }
-    GameState(judgeWinner(), field)
+    GameState(judgeWinner(), board)
   }
 
-  def currentField: Field = field
+  def currentBoard: Board = board
 
   private def judgeWinner(): Winner = {
     val winPattern: Seq[((Int, Int), (Int, Int), (Int, Int))] =
@@ -19,7 +19,7 @@ class Game(private[this] var field: Field) {
         (for (i <- 0 to 2) yield ((0, i), (1, i), (2, i))) ++
         Seq(((0, 0), (1, 1), (2, 2)), ((2, 0), (1, 1), (0, 2)))
 
-    val cells = field.cells
+    val cells = board.cells
 
     val winners = winPattern.map {
       case (c1, c2, c3) if cells(c1) == cells(c2) && cells(c2) == cells(c3) => Winner.toWinner(cells(c1))
@@ -37,10 +37,10 @@ class Game(private[this] var field: Field) {
 
 }
 
-case class GameState(winner: Winner, field: Field)
+case class GameState(winner: Winner, board: Board)
 
 object Game {
 
-  def apply(): Game = new Game(Field())
+  def apply(): Game = new Game(Board())
   
 }

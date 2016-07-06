@@ -1,25 +1,25 @@
-package jp.co.dwango.marubatsu.field
+package jp.co.dwango.marubatsu.board
 
 private[marubatsu] trait CellState {
 
-  private[field] def next: CellState
+  protected def next: CellState
 
 }
 
 private[marubatsu] case object Empty extends CellState {
 
-  private[field] def next: CellState = Empty
+  private[board] def next: CellState = Empty
 
 }
 
 private[marubatsu] case object Maru extends CellState {
 
-  private[field] def next: CellState = Batsu
+  private[board] def next: CellState = Batsu
 
 }
 
 private[marubatsu] case object Batsu extends CellState {
 
-  private[field] def next: CellState = Maru
+  private[board] def next: CellState = Maru
 
 }
