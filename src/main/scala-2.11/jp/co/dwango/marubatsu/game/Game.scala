@@ -2,20 +2,22 @@ package jp.co.dwango.marubatsu.game
 
 import jp.co.dwango.marubatsu.board.Board
 
-class Game(private[this] var board: Board) {
+class Game(private[this] val winner: Winner, private[this] val board: Board) {
 
-  def play(row: Int, column: Int): GameState = {
+  def play(row: Int, column: Int): Game = {
     if (board.canPut(row, column)) {
-      board = board.put(row, column)
+      val nextBoard = board.put(row, column)
+      new Game(judgeWinner(nextBoard), nextBoard)
+    } else {
+      this
     }
-    GameState(judgeWinner(), board)
   }
 
-  private[this] def judgeWinner(): Winner = {
-    val winPattern: Seq[((Int, Int), (Int, Int), (Int, Int))] =
-      (for (i <- 0 to 2) yield ((i, 0), (i, 1), (i, 2))) ++
-        (for (i <- 0 to 2) yield ((0, i), (1, i), (2, i))) ++
-        Seq(((0, 0), (1, 1), (2, 2)), ((2, 0), (1, 1), (0, 2)))
+  private[this] def judgeWinner(board: Board): Winner = {
+    val winPattern =
+      Seq(((0, 0), (0, 1), (0, 2)), ((1, 0), (1, 1), (1, 2)), ((2, 0), (2, 1), (2, 2)),
+        ((0, 0), (1, 0), (2, 0)), ((0, 1), (1, 1), (2, 1)), ((0, 2), (1, 2), (2, 2)),
+        ((0, 0), (1, 1), (2, 2)), ((2, 0), (1, 1), (0, 2)))
 
     val cells = board.cells
 
@@ -33,12 +35,12 @@ class Game(private[this] var board: Board) {
     }
   }
 
-}
+  override def toString = s"Game($winner, $board)"
 
-case class GameState(winner: Winner, board: Board)
+}
 
 object Game {
 
-  def apply(): Game = new Game(Board())
+  def apply(): Game = new Game(NoWinner, Board())
 
 }
