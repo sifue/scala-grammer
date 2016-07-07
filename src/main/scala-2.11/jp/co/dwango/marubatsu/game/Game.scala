@@ -21,7 +21,7 @@ class Game(private[this] var board: Board) {
 
     val winners = winPattern.map {
       case (c1, c2, c3) if cells(c1) == cells(c2) && cells(c2) == cells(c3) => toWinner(cells(c1))
-      case _ => None
+      case _ => NoWinner
     }
 
     if(winners.contains(Maru)) {
@@ -29,7 +29,7 @@ class Game(private[this] var board: Board) {
     } else if (winners.contains(Batsu)) {
       Batsu
     } else {
-      None
+      NoWinner
     }
   }
 

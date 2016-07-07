@@ -4,10 +4,10 @@ import jp.co.dwango.marubatsu.board.{CellState, Empty, Maru => MaruState, Batsu 
 
 package object game {
 
-  def toWinner(cellState: CellState): Winner = cellState match {
+  private[game] def toWinner(cellState: CellState): Winner = cellState match {
     case MaruState => Maru
     case BatsuState => Batsu
-    case Empty => None
+    case Empty => NoWinner
   }
 
 }
