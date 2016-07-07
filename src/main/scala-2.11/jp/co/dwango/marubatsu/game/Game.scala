@@ -1,6 +1,6 @@
 package jp.co.dwango.marubatsu.game
 
-import jp.co.dwango.marubatsu.board.Board
+import jp.co.dwango.marubatsu.board.{Board, Empty, Maru => MaruState, Batsu => BatsuState}
 
 class Game(private[this] val winner: Winner, private[this] val board: Board) {
 
@@ -35,7 +35,18 @@ class Game(private[this] val winner: Winner, private[this] val board: Board) {
     }
   }
 
-  override def toString = s"Game($winner, $board)"
+  private[this] def sign(row: Int, column: Int) = board.cells((row, column)) match {
+    case Empty => " "
+    case MaruState => "○"
+    case BatsuState => "☓"
+  }
+
+  override def toString =
+    s"""Winner: ${winner}
+        || ${sign(0, 0)}| ${sign(0, 1)}| ${sign(0, 2)}|
+       || ${sign(1, 0)}| ${sign(1, 1)}| ${sign(1, 2)}|
+       || ${sign(2, 0)}| ${sign(2, 1)}| ${sign(2, 2)}|
+     """.stripMargin
 
 }
 
